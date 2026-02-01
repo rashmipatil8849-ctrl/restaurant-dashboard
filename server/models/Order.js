@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema(
       {
         menuItem: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "MenuItem",
+          ref: "MenuItem", // ✅ MUST match model name
           required: true
         },
         quantity: {

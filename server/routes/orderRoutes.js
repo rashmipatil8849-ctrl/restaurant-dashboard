@@ -5,13 +5,14 @@ const Order = require("../models/Order");
 // GET all orders
 router.get("/", async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.menuItem");
+    const orders = await Order.find(); // ❌ no populate
     res.json(orders);
   } catch (error) {
     console.error("GET /orders error:", error);
     res.status(500).json({ message: "Failed to fetch orders" });
   }
 });
+
 
 // CREATE order
 router.post("/", async (req, res) => {
