@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const orderRoutes = require("./routes/orderRoutes"); // ✅ ONLY ONCE
+const orderRoutes = require("./routes/orderRoutes"); 
 
 const app = express();
 
