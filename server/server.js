@@ -1,23 +1,27 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./db.js";
+import menuRoutes from "./routes/menuRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
-
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config(); 
-const connectDB = require("./db");
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/orders", require("./routes/orderRoutes"));
 
-connectDB();
-
-app.use("/api/menu", require("./routes/menuRoutes"));
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+// ✅ ROOT ROUTE (ADD THIS)
+app.get("/", (req, res) => {
+  res.send("🚀 Restaurant Dashboard Backend is running");
 });
 
+// API routes
+app.use("/api/menu", menuRoutes);
+app.use("/api/orders", orderRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
