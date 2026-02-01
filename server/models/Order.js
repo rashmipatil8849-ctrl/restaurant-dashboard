@@ -4,25 +4,22 @@ const orderSchema = new mongoose.Schema(
   {
     items: [
       {
-        menuItem: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "MenuItem", // ✅ MUST match model name
-          required: true
-        },
+        name: String,
+        price: Number,
         quantity: {
           type: Number,
-          required: true
-        }
-      }
+          default: 1,
+        },
+      },
     ],
-    totalAmount: {
+    total: {
       type: Number,
-      required: true
+      required: true,
     },
     status: {
       type: String,
-      default: "Pending"
-    }
+      default: "Pending",
+    },
   },
   { timestamps: true }
 );
