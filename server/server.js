@@ -18,6 +18,8 @@ app.get("/", (req, res) => {
 });
 
 // API routes
+const orderRoutes = require("./routes/orderRoutes");
+const menuRoutes = require("./routes/menuRoutes")
 app.use("/api/menu", menuRoutes);
 app.use("/api/orders", orderRoutes);
 

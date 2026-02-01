@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const orders = await Order.find().populate("items.menuItem");
     res.json(orders);
   } catch (error) {
-    console.error("Fetch orders error:", error);
+    console.error("GET /orders error:", error);
     res.status(500).json({ message: "Failed to fetch orders" });
   }
 });
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     const savedOrder = await order.save();
     res.status(201).json(savedOrder);
   } catch (error) {
-    console.error("Create order error:", error);
+    console.error("POST /orders error:", error);
     res.status(500).json({ message: "Failed to create order" });
   }
 });
