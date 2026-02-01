@@ -5,31 +5,33 @@ require("dotenv").config();
 
 const app = express();
 
-app.use((req, res) => {
-  res.status(404).send("Route not found: " + req.originalUrl);
-});
-
-
-// middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// health check
+// ✅ IMPORT ROUTES (ONLY ONCE)
+const orderRoutes = require("./routes/orderRoutes");
+
+// ✅ ROOT ROUTE (important for Render)
 app.get("/", (req, res) => {
-  res.send("🚀 Backend is running");
+  res.send("🚀 Restaurant Dashboard Backend is running");
 });
 
-// routes
-const orderRoutes = require("./routes/orderRoutes");
+// ✅ MOUNT ROUTES (THIS WAS MISSING / WRONG)
 app.use("/api/orders", orderRoutes);
 
-// mongo
+// PORT (Render needs process.env.PORT)
+const PORT = process.env.PORT || 5000;
+
+// DB CONNECT
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB error:", err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+  .then(() => {
+    console.log("✅ MongoDB connected");
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+  });
