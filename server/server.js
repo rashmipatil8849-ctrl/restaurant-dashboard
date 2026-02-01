@@ -1,30 +1,36 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import connectDB from "./db.js";
-import menuRoutes from "./routes/menuRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
-dotenv.config();
+const orderRoutes = require("./routes/orderRoutes"); // ✅ ONLY ONCE
 
 const app = express();
 
+// middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ ROOT ROUTE (ADD THIS)
+// routes
+app.use("/api/orders", orderRoutes);
+
+// root route (important for Render)
 app.get("/", (req, res) => {
   res.send("🚀 Restaurant Dashboard Backend is running");
 });
 
-// API routes
-const orderRoutes = require("./routes/orderRoutes");
-const menuRoutes = require("./routes/menuRoutes")
-app.use("/api/menu", menuRoutes);
-app.use("/api/orders", orderRoutes);
-
+// port
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-});
-// ❌ MongoDB Connection Failed: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+
+// mongo connect
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on port ${PORT}`)
+    );
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed:", err.message);
+  });
