@@ -1,13 +1,28 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getOrders,
-  createOrder,
-  updateStatus,
-} = require("../controllers/orderController");
+const Order = require("../models/Order");
 
-router.get("/", getOrders);
-router.post("/", createOrder);
-router.patch("/:id/status", updateStatus);
+// GET all orders
+router.get("/", async (req, res) => {
+  try {
+    const orders = await Order.find().populate("items.menuItem");
+    res.json(orders);
+  } catch (error) {
+    console.error("Fetch orders error:", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+});
+
+// CREATE order
+router.post("/", async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    const savedOrder = await order.save();
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    console.error("Create order error:", error);
+    res.status(500).json({ message: "Failed to create order" });
+  }
+});
 
 module.exports = router;
