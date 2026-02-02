@@ -25,6 +25,13 @@ export default function MenuManagement() {
     fetchMenu();
   }, []);
 
+  useEffect(() => {
+  getMenuItems().then((data) => {
+    setMenu(data);
+  });
+}, []);
+
+
   const fetchMenu = async () => {
     const data = await getMenuItems();
     setMenu(data);

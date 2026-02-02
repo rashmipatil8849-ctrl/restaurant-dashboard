@@ -6,16 +6,21 @@ const API =
 export const getOrders = () =>
   fetch(`${BASE_URL}/api/orders`).then(res => res.json());
 
-export const createOrder = (data) =>
-  fetch(`${BASE_URL}/api/orders`, {
+// ✅ CREATE menu item
+export const createMenuItem = async (menuItem) => {
+  const response = await fetch(`${API}/menu`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  }).then(res => res.json());
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(menuItem),
+  });
+  return response.json();
+};
 
 
 export const getMenuItems = async () => {
-  const res = await axios.get(`${API}/menuItem`);
+  const res = await axios.get(`${API}/menu`);
   return res.data;
 };
 
