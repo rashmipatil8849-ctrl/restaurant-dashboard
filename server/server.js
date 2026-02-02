@@ -1,41 +1,36 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const connectDB = require("./db");
 require("dotenv").config();
 
 const app = express();
 
+/* ---------------- CORS ---------------- */
+app.use(cors({
+  origin: "https://restaurantdashboardr.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+/* ---------------- MIDDLEWARE ---------------- */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+/* ---------------- ROUTES ---------------- */
 const menuRoutes = require("./routes/menuRoutes");
-
-app.use("/api/menu", menuRoutes);
-
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-connectDB();
-
-// ✅ IMPORT ROUTES (ONLY ONCE)
 const orderRoutes = require("./routes/orderRoutes");
 
-// ✅ ROOT ROUTE (important for Render)
+app.use("/api/menu", menuRoutes);
+app.use("/api/orders", orderRoutes);
+
+/* ---------------- ROOT TEST ROUTE ---------------- */
 app.get("/", (req, res) => {
   res.send("🚀 Restaurant Dashboard Backend is running");
 });
 
-// ✅ MOUNT ROUTES (THIS WAS MISSING / WRONG)
-app.use("/api/orders", orderRoutes);
-
-// PORT (Render needs process.env.PORT)
+/* ---------------- START SERVER ---------------- */
 const PORT = process.env.PORT || 5000;
 
-// DB CONNECT
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
