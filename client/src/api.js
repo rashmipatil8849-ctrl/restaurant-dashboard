@@ -35,3 +35,16 @@ export const getOrders = async () => {
   const res = await fetch(`${API_URL}/orders`);
   return res.json();
 };
+
+// Delete menu item
+export const deleteMenuItem = async (id) => {
+  const res = await fetch(
+    `https://restaurant-dashboard-backend-xmy6.onrender.com/api/menu/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  return res.json();
+};
+
