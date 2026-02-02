@@ -5,6 +5,11 @@ require("dotenv").config();
 
 const app = express();
 
+const menuRoutes = require("./routes/menuRoutes");
+
+app.use("/api/menu", menuRoutes);
+
+
 // Middleware
 app.use(cors());
 app.use(express.json());

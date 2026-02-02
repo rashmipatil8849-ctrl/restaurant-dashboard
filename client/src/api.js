@@ -15,7 +15,7 @@ export const createOrder = (data) =>
 
 
 export const getMenuItems = async () => {
-  const res = await axios.get(`${API}/menu`);
+  const res = await axios.get(`${API}/menuItem`);
   return res.data;
 };
 
