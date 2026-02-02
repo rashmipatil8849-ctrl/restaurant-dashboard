@@ -1,11 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const connectDB = require("./db");
 require("dotenv").config();
 
 const app = express();
 
-const connectDB = require("./db");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 const menuRoutes = require("./routes/menuRoutes");
 
 app.use("/api/menu", menuRoutes);
