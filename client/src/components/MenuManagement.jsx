@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMenuItems, deleteMenuItem } from "../api";
 
-
-const selectedCategory = [
+const categories = [
   "All",
   "Appetizer",
   "Main Course",
@@ -21,48 +20,41 @@ export default function MenuManagement() {
   const [menu, setMenu] = useState([]);
   const [category, setCategory] = useState("All");
 
+  // ✅ FETCH MENU (ONLY ONCE)
   useEffect(() => {
     fetchMenu();
   }, []);
 
-  useEffect(() => {
   const fetchMenu = async () => {
     try {
       const data = await getMenuItems();
-      console.log("MENU DATA:", data); // 👈 THIS LINE
+      console.log("MENU DATA:", data);
       setMenu(data);
     } catch (err) {
       console.error("Failed to load menu", err);
     }
   };
-  fetchMenu();
-}, []);
 
-
-
-  const fetchMenu = async () => {
-    const data = await getMenuItems();
-    setMenu(data);
-  };
-
+  // ✅ CORRECT FILTER
   const filteredMenu =
-  selectedCategory === "All"
-    ? menu
-    : menu.filter((item) => item.category === selectedCategory);
-
+    category === "All"
+      ? menu
+      : menu.filter(
+          (item) =>
+            item.category?.toLowerCase() === category.toLowerCase()
+        );
 
   const handleDelete = async (id) => {
-  if (!window.confirm("Delete this menu item?")) return;
+    if (!window.confirm("Delete this menu item?")) return;
 
-  try {
-    await deleteMenuItem(id);
-    setMenu(menu.filter((item) => item._id !== id));
-  } catch (err) {
-    alert("Failed to delete item");
-    console.error(err);
-  }
-};
-
+    try {
+      await deleteMenuItem(id);
+      setMenu(menu.filter((item) => item._id !== id));
+    } catch (err) {
+      alert("Failed to delete item");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="p-6">
@@ -72,7 +64,7 @@ export default function MenuManagement() {
 
       {/* Category Filter */}
       <div className="flex gap-3 mb-6">
-        {selectedCategory.map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
@@ -105,7 +97,7 @@ export default function MenuManagement() {
               </div>
 
               <p className="text-sm text-gray-500 mb-1">
-                {item.description}
+                {item.description || "—"}
               </p>
 
               <p className="text-sm text-gray-500">
@@ -114,10 +106,6 @@ export default function MenuManagement() {
 
               <p className="text-green-600 font-bold mt-2">
                 ₹{item.price}
-              </p>
-
-              <p className="text-sm text-gray-500">
-                Prep Time: {item.preparationTime || "--"} mins
               </p>
 
               <span className="inline-block mt-2 px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
