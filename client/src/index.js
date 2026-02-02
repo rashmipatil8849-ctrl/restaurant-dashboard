@@ -1,16 +1,11 @@
-const BASE_URL = "https://restaurant-dashboard-backend-xmy6.onrender.com";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 
-// GET MENU
-export const getMenuItems = async () => {
-  const res = await fetch(`${BASE_URL}/api/menu`);
-  if (!res.ok) throw new Error("Failed to fetch menu");
-  return res.json();
-};
-
-// DELETE MENU
-export const deleteMenuItem = async (id) => {
-  const res = await fetch(`${BASE_URL}/api/menu/${id}`, {
-    method: "DELETE",
-  });
-  if (!res.ok) throw new Error("Failed to delete menu item");
-};
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
