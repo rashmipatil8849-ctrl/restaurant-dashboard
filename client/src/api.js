@@ -1,60 +1,37 @@
-import axios from "axios";
+const API_URL = "https://restaurant-dashboard-backend-xmy6.onrender.com/api";
 
-const API =
-  "https://restaurant-dashboard-backend-xmy6.onrender.com";
+/* ================= MENU ================= */
 
-export const getOrders = () =>
-  fetch(`${BASE_URL}/api/orders`).then(res => res.json());
-
-// ✅ CREATE menu item
-export const createMenuItem = async (menuItem) => {
-  const response = await fetch(`${API}/menu`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(menuItem),
-  });
-  return response.json();
-};
-
-
+// Get menu items
 export const getMenuItems = async () => {
-  const res = await axios.get(`${API}/menu`);
-  return res.data;
-};
-
-
-
-export const deleteMenuItem = async (id) => {
-  await fetch(`http://localhost:5000/api/menu/${id}`, {
-    method: "DELETE",
-  });
-};
-
-const BASE_URL = "http://localhost:5000/api";
-
-// export const getOrders = async () => {
-//   const res = await fetch(`${BASE_URL}/orders`);
-//   return res.json();
-// };
-
-// export const createOrder = async (order) => {
-//   const res = await fetch(`${BASE_URL}/orders`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(order),
-//   });
-//   return res.json();
-// };
-
-export const updateOrderStatus = async (id, status) => {
-  const res = await fetch(`${BASE_URL}/orders/${id}/status`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status }),
-  });
-
+  const res = await fetch(`${API_URL}/menu`);
   return res.json();
 };
 
+// Create menu item
+export const createMenuItem = async (menuItem) => {
+  const res = await fetch(`${API_URL}/menu`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(menuItem),
+  });
+  return res.json();
+};
+
+/* ================= ORDERS ================= */
+
+// ✅ ADD THIS (THIS IS THE FIX)
+export const createOrder = async (order) => {
+  const res = await fetch(`${API_URL}/orders`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(order),
+  });
+  return res.json();
+};
+
+// Get orders
+export const getOrders = async () => {
+  const res = await fetch(`${API_URL}/orders`);
+  return res.json();
+};
