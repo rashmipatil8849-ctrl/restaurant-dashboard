@@ -1,22 +1,34 @@
 const API_URL = "https://restaurant-dashboard-backend-xmy6.onrender.com/api";
 
+
 /* ================= MENU ================= */
 
-// Get menu items
+// Get all menu items
 export const getMenuItems = async () => {
   const res = await fetch(`${API_URL}/menu`);
   return res.json();
 };
 
 // Create menu item
-export const createMenuItem = async (menuItem) => {
+export const createMenuItem = async (data) => {
   const res = await fetch(`${API_URL}/menu`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(menuItem),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
   return res.json();
 };
+
+// Delete menu item
+export const deleteMenuItem = async (id) => {
+  const res = await fetch(`${API_URL}/menu/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+};
+
 
 /* ================= ORDERS ================= */
 
@@ -36,17 +48,7 @@ export const getOrders = async () => {
   return res.json();
 };
 
-// Delete menu item
-export const deleteMenuItem = async (id) => {
-  const res = await fetch(
-    `https://restaurant-dashboard-backend-xmy6.onrender.com/api/menu/${id}`,
-    {
-      method: "DELETE",
-    }
-  );
 
-  return res.json();
-};
 
 // Update order status
 export const updateOrderStatus = async (id, status) => {
