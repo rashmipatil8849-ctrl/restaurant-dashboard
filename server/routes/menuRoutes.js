@@ -56,10 +56,14 @@ router.post("/", async (req, res) => {
     const item = new MenuItem(req.body);
     const savedItem = await item.save();
     res.status(201).json(savedItem);
-  } catch (err) {
-    console.error("CREATE MENU ERROR:", err.message);
-    res.status(500).json({ message: "Failed to create menu item" });
-  }
+  } catch (error) {
+  console.error("MENU CREATE ERROR:", error);
+  res.status(500).json({
+    message: error.message,
+    stack: error.stack
+  });
+}
+
 });
 
 
