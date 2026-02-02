@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMenuItems, deleteMenuItem } from "../api";
 
 
-const categories = [
+const selectedCategory = [
   "All",
   "Appetizer",
   "Main Course",
@@ -26,10 +26,17 @@ export default function MenuManagement() {
   }, []);
 
   useEffect(() => {
-  getMenuItems().then((data) => {
-    setMenu(data);
-  });
+  const fetchMenu = async () => {
+    try {
+      const data = await getMenuItems();
+      setMenu(data);
+    } catch (err) {
+      console.error("Failed to load menu", err);
+    }
+  };
+  fetchMenu();
 }, []);
+
 
 
   const fetchMenu = async () => {
@@ -38,9 +45,10 @@ export default function MenuManagement() {
   };
 
   const filteredMenu =
-    category === "All"
-      ? menu
-      : menu.filter((item) => item.category === category);
+  selectedCategory === "All"
+    ? menu
+    : menu.filter((item) => item.category === selectedCategory);
+
 
   const handleDelete = async (id) => {
   if (!window.confirm("Delete this menu item?")) return;
@@ -63,7 +71,7 @@ export default function MenuManagement() {
 
       {/* Category Filter */}
       <div className="flex gap-3 mb-6">
-        {categories.map((cat) => (
+        {selectedCategory.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
