@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
+const connectDB = require("./db");
 const menuRoutes = require("./routes/menuRoutes");
 
 app.use("/api/menu", menuRoutes);
@@ -13,6 +14,8 @@ app.use("/api/menu", menuRoutes);
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+connectDB();
 
 // ✅ IMPORT ROUTES (ONLY ONCE)
 const orderRoutes = require("./routes/orderRoutes");
