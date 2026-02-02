@@ -48,3 +48,18 @@ export const deleteMenuItem = async (id) => {
   return res.json();
 };
 
+// Update order status
+export const updateOrderStatus = async (id, status) => {
+  const res = await fetch(
+    `https://restaurant-dashboard-backend-xmy6.onrender.com/api/orders/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
+    }
+  );
+
+  return res.json();
+};
