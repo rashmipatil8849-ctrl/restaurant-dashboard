@@ -29,6 +29,7 @@ export default function MenuManagement() {
   const fetchMenu = async () => {
     try {
       const data = await getMenuItems();
+      console.log("MENU DATA:", data); // 👈 THIS LINE
       setMenu(data);
     } catch (err) {
       console.error("Failed to load menu", err);
