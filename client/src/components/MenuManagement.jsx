@@ -37,12 +37,9 @@ export default function MenuManagement() {
 
   // ✅ CORRECT FILTER
   const filteredMenu =
-    category === "All"
-      ? menu
-      : menu.filter(
-          (item) =>
-            item.category?.toLowerCase() === category.toLowerCase()
-        );
+  category === "All"
+    ? menu
+    : menu.filter((item) => item.category === category);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this menu item?")) return;
